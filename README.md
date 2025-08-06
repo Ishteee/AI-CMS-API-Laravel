@@ -1,11 +1,6 @@
 # AI-Powered CMS API (Laravel 11)
 
-![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php)
-![Laravel Version](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel)
-![Database](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
-
-A robust and secure REST API for a simple Content Management System (CMS), built with Laravel 11 and MySQL. This project demonstrates modern API development practices, including token-based authentication, role-based access control, and asynchronous job processing for integrating third-party AI services.
+A robust and secure REST API for a simple Content Management System (CMS), built with Laravel 11 and MySQL. This project demonstrates modern API development practices, including token-based authentication, role-based access control, and asynchronous job processing for integrating AI services.
 
 The key feature is its AI-powered content enrichment: new articles have their URL slug and a brief summary generated automatically in the background by the **Google Gemini API**, ensuring the user receives an instant response while the heavy lifting is handled asynchronously.
 
@@ -52,8 +47,8 @@ Follow these steps to get the project up and running on your local machine.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/](https://github.com/)[your-github-username]/[your-repo-name].git
-    cd [your-repo-name]
+    git clone https://github.com/Ishteee/AI-CMS-API-Laravel.git
+    cd AI-CMS-API-Laravel
     ```
 
 2.  **Install PHP dependencies:**
@@ -69,7 +64,7 @@ Follow these steps to get the project up and running on your local machine.
     -   Open the `.env` file and configure your database connection (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
     -   Add your Google Gemini API key at the bottom:
         ```ini
-        GEMINI_API_KEY="your-gemini-api-key-goes-here"
+        GEMINI_API_KEY="YOUR-GEMINI-API-KEY"
         ```
 
 4.  **Generate a new application key:**
@@ -103,8 +98,8 @@ The API is now running and accessible at `http://127.0.0.1:8000`.
 A complete Postman collection is included in this repository to test all API endpoints.
 
 1.  **Import the Collection:** Import the `CMS_API_Collection.postman_collection.json` file into your Postman client.
-2.  **Configure the Base URL:** The collection uses a `{{base_url}}` variable. To set it, click on the collection, go to the "Variables" tab, and set the `CURRENT VALUE` of `base_url` to `http://127.0.0.1:8000`.
-3.  **Authentication:**
+2. **Ensure** that your server is running on `http://127.0.0.1:8000`, if not, then modify the request url according to your server's url, because all requests have been made using `http://127.0.0.1:8000` url which is Laravel's default server url.
+2.  **Authentication:**
     -   Run the **`[POST] Login as Admin`** or **`[POST] Login as Author`** request first.
     -   The API token is **automatically saved** to a collection variable `{{api_token}}`.
     -   All other protected requests will use this token automatically.
@@ -112,11 +107,17 @@ A complete Postman collection is included in this repository to test all API end
 ### Default User Credentials
 
 -   **Admin:**
-    -   **Email:** `admin@example.com`
-    -   **Password:** `password123`
--   **Author:**
-    -   **Email:** `author1@example.com`
-    -   **Password:** `password123`
+    -   **Email:** `admin1@cmsapi.com`
+    -   **Password:** `admin123`
+-   **Author 1:**
+    -   **Email:** `author1@cmsapi.com`
+    -   **Password:** `author123`
+-   **Author 2:**
+    -   **Email:** `author2@cmsapi.com`
+    -   **Password:** `author123`
+-   **Author 3:**
+    -   **Email:** `author3@cmsapi.com`
+    -   **Password:** `author123`
 
 ---
 ## API Endpoint Overview
