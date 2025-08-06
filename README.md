@@ -6,6 +6,14 @@ The key feature is its AI-powered content enrichment: new articles have their UR
 
 ---
 
+## Video Demo
+
+A brief walkthrough of the API's core features, including the asynchronous AI-powered job processing and role-based security checks.
+
+[Watch the demo on YouTube](https://youtu.be/vlHiM-abQak)
+
+---
+
 ## Key Features
 
 -   **Secure Authentication:** Token-based authentication using Laravel Sanctum.
