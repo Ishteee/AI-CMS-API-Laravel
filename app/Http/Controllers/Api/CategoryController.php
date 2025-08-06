@@ -106,6 +106,6 @@ class CategoryController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Category deleted successfully',
-        ], 200); // Or use 204 No Content for no message body
+        ], 200);
     }
 }

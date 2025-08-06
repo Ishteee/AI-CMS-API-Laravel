@@ -22,7 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Define the 'manage-article' Gate
         Gate::define('manage-article', function (User $user, Article $article) {
             // A user can manage an article if they are an admin
             // OR if they are the author of the article.

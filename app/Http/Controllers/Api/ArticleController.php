@@ -17,10 +17,9 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with a base query for articles
+        // base query for articles
         $query = Article::query();
 
-        // Eager load relationships for efficiency to prevent N+1 problems
         $query->with('author:id,name', 'categories:id,name');
 
         // Filter by status if the 'status' parameter is present
@@ -96,7 +95,7 @@ class ArticleController extends Controller
         // Attach the categories to the article
         $article->categories()->attach($request->category_ids);
 
-        // Dispatch the jobs to the queue for background processing
+        // Dispatch the ai jobs to the queue for background processing
         GenerateArticleSlug::dispatch($article->id);
         GenerateArticleSummary::dispatch($article->id);
 
@@ -112,7 +111,6 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        // Eager load the author and categories for the response
         $article->load('author:id,name', 'categories:id,name');
 
         return response()->json([
