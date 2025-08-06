@@ -1,0 +1,778 @@
+{
+	"info": {
+		"_postman_id": "b6fdd845-c514-45ab-9cc5-01b6303cab0c",
+		"name": "CMS API Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36850111"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"if (jsonData && jsonData.token) {",
+									"    pm.collectionVariables.set(\"api_token\", jsonData.token);",
+									"    console.log(\"API Token saved successfully!\");",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin1@cmsapi.com\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						},
+						"description": "Logs in the Admin user. The API (Bearer) token is automatically saved to the \"`api_token\"` collection variable for use in other requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"if (jsonData && jsonData.token) {",
+									"    pm.collectionVariables.set(\"api_token\", jsonData.token);",
+									"    console.log(\"API Token saved successfully!\");",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"author1@cmsapi.com\",\n    \"password\": \"author123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						},
+						"description": "Logs in the Author user. This will overwrite the \"`api_token\"` variable with the Author's token."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"logout"
+							]
+						},
+						"description": "Logs out the current user by invalidating their API token. Requires a valid token, it will autmatically use the \"api token\" collection variable to perform logout."
+					},
+					"response": []
+				}
+			],
+			"description": "# This folder contains the necessary requests for user login and logout. On login, the \"api token\" is set as the Bearer token for every request that requires role based access."
+		},
+		{
+			"name": "Categories (Admin Only)",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Technology\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/categories",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories"
+							]
+						},
+						"description": "Creates a new category. Requires an Admin token, which will automatically be used if admin is logged in, this is because the bearer token of the logged in user is used in this request. Use the id from the response to test other endpoints."
+					},
+					"response": []
+				},
+				{
+					"name": "List All Categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/categories",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories"
+							]
+						},
+						"description": "Fetches all categories. Requires an Admin token, which will automatically be used if admin is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/categories/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Fetches a single category by its ID. Requires an Admin token, which will automatically be used if admin is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Tech\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/categories/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Updates a category's name. Requires an Admin token, which will automatically be used if admin is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/categories/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Deletes a category. Requires an Admin token, which will automatically be used if admin is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				}
+			],
+			"description": "# All requests in this folder require an Admin token which will automatically be used if an admin is logged in. This is because \"api token\" is set as the Bearer token in the Authorization Tab in every request."
+		},
+		{
+			"name": "Articles (Admin & Author)",
+			"item": [
+				{
+					"name": "Create Article",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"The Rise and Fall of Quantum Startups\",\n  \"content\": \"Quantum computing was once hailed as the next big revolution in technology. Venture capital firms poured billions into startups that promised groundbreaking speedups and disruption across industries. However, as years passed, practical implementations remained elusive. Many companies struggled to scale their quantum systems beyond a few stable qubits. Investors grew impatient, leading to a wave of shutdowns and pivots.\\n\\nStill, the research did not go to waste. Advances in cryogenics, error correction, and quantum materials found their way into academia and niche applications in cryptography and material science. Some startups transformed into research arms of tech giants, while others faded quietly into the history of ambitious tech.\\n\\nThis article explores the early hype, the technical roadblocks, the funding rollercoaster, and the eventual reckoning of the quantum startup landscape. We also profile a few companies that managed to stay afloat by pivoting toward hybrid classical-quantum solutions and long-term research collaborations.\\n\\nUltimately, the fall of many quantum startups was not due to lack of vision, but rather the enormous complexity of building and commercializing quantum systems. The story is a reminder of the fine line between ambition and overpromising in deep tech.\",\n  \"status\": \"Published\",\n  \"category_ids\": [1]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles"
+							]
+						},
+						"description": "Creates a new article. The slug and summary are generated asynchronously. Remember to run php artisan queue:work in your project terminal for asynchronous generations. Requires an Admin or Author token, which will automatically be used if any user is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "List All Articles (No Filter)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles"
+							]
+						},
+						"description": "Fetches a paginated list of articles. Requires an Admin or Author token, which will automatically be used if any user is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "List Articles (Filter by Status & Category)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Fetches a paginated list of articles. Example shows filtering by status and category. Requires an Admin or Author token, which will automatically be used if any user is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "List Articles (Filter by Author & Date)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Fetches a paginated list of articles. Example shows filtering by Author Name and Published Date (between start and end date). Requires an Admin or Author token, which will automatically be used if any user is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Article",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						},
+						"description": "Fetches a single article by its ID. Requires an Admin or Author token, which will automatically be used if any user is logged in, this is because the bearer token of the logged in user is used in this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Own Article (as Author)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Archived\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						},
+						"description": "Updates an article. This will SUCCEED if the token belongs to the article's original author or an Admin, in other words, this request will succeed if the logged in user is the article's original author or an Admin."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Article (as Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Published\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						},
+						"description": "Updates an article. This will SUCCEED if the token belongs to the article's original author or an Admin, in other words, this request will succeed if the logged in user is the article's original author or an Admin."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Own Article (as Author)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						},
+						"description": "Deletes an article. This request will SUCCEED with a response if the logged-in user is the original author of the article or an Admin. This request should FAIL with a 403 Forbidden error, if an author tries to delete another author's article."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Another User's Article (as Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/articles/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles",
+								"1"
+							]
+						},
+						"description": "This request will SUCCEED with a 200 OK response if you are logged in as an Admin, proving they have permission to manage any article. This request should FAIL with a 403 Forbidden error, if an author tries to delete another author's article."
+					},
+					"response": []
+				}
+			],
+			"description": "# These requests can be tested with either an Admin or Author token, but some actions are restricted by ownership due to role based access i.e an admin can manage all articles, but an author can manage only his own articles."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
